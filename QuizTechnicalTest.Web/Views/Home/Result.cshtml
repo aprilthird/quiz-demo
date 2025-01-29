@@ -1,0 +1,32 @@
+﻿@model List<CandidateViewModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div>
+    @for(var i = 0; i < Model.Count(); ++i)
+    {
+        <div>
+            <span class="form-label">Nombre: </span>
+            <span>@Model[i].Name</span>
+        </div>
+        <div>
+            <span class="form-label">Grupo: </span>
+            <span>@Model[i].Group</span>
+        </div>
+        <div>
+            <span class="form-label">Edad: </span>
+            <span>@Model[i].Age</span>
+        </div>
+        <div>
+            <span class="form-label">Profesión: </span>
+            <span>@Model[i].Profession</span>
+        </div>
+        <div>
+            <span class="form-label">Posición: </span>
+            <span>@Model[i].Position</span>
+        </div>
+    }
+</div>

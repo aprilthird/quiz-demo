@@ -1,0 +1,29 @@
+﻿@model List<QuestionViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-2">Quiz</h1>
+    <h3 class="display-6">Responda las siguientes preguntas</h3>
+</div>
+
+<form method="post" asp-action="IndexPost">
+    <div>
+        @for (var i = 0; i < Model.Count(); ++i)
+        {
+            <div class="mt-4">
+                <div class="form-label">@Model[i].Description</div>
+                <select name="Answers[@i]" class="form-control">
+                    @foreach (var answer in Model[i].Answers)
+                    {
+                        <option value="@answer.Id">@answer.Description</option>
+                    }
+                </select>
+            </div>
+        }
+        <div class="d-grid gap-2 mt-5">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+    </div>
+</form>
