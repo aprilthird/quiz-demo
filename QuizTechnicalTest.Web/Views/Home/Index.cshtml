@@ -13,13 +13,18 @@
         @for (var i = 0; i < Model.Count(); ++i)
         {
             <div class="mt-4">
-                <div class="form-label">@Model[i].Description</div>
-                <select name="Answers[@i]" class="form-control">
-                    @foreach (var answer in Model[i].Answers)
-                    {
-                        <option value="@answer.Id">@answer.Description</option>
-                    }
-                </select>
+                <img class="img-thumbnail rounded mx-auto d-block" alt="question" src="@Url.Content($"~/img/questions/{Model[i].Picture!.ToUpperInvariant()}")" />
+                <div class="mt-2 fw-bold">@Model[i].Description</div>
+                <input name="QuizAnswers[@i].QuestionId" hidden value="@Model[i].Id" />
+                @if (Model[i].Answers != null)
+                {
+                    <select class="mt-2 form-control" name="QuizAnswers[@i].AnswerId">
+                        @foreach (var answer in Model[i].Answers!)
+                        {
+                            <option value="@answer.Id">@answer.Description</option>
+                        }
+                    </select>
+                }
             </div>
         }
         <div class="d-grid gap-2 mt-5">

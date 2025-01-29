@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using QuizTechnicalTest.CrossCutting.Settings;
 using QuizTechnicalTest.Domain.Entities;
+using QuizTechnicalTest.Infrastructure.Adapters;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,22 +36,46 @@ namespace QuizTechnicalTest.Infrastructure.Repositories
             var adapter = new SqlDataAdapter(cmd);
             var dt = new DataTable();
             adapter.Fill(dt);
+
             foreach (var row in dt.Rows)
             {
                 var dataRow = (DataRow)row;
-
-                var candidate = new Candidate();
-                candidate.Id = (int)dataRow["candidate_id"];
-                candidate.Name = (string)dataRow["candidate_name"];
-                candidate.Group = (string)dataRow["candidate_group"];
-                candidate.Age = (int)dataRow["candidate_age"];
-                candidate.Profession = (string)dataRow["candidate_profession"];
-                candidate.Position = (string)dataRow["candidate_position"];
-
+                var candidate = CandidateAdapter.ToEntity(dataRow);
                 results.Add(candidate);
             }
 
             return results;
+        }
+
+        public async Task<Candidate?> GetById(int id)
+        {
+            var sql = $"SELECT * FROM {TABLE_NAME} WHERE candidate_id = @candidate_id";
+            var parameters = new List<SqlParameter>
+            {
+                new ("@candidate_id", SqlDbType.Int) { Value = id },
+            };
+
+            using var con = new SqlConnection(_connectionString);
+            await con.OpenAsync();
+            using var cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = sql;
+            foreach (var param in parameters)
+            {
+                cmd.Parameters.Add(param);
+            }
+
+            var adapter = new SqlDataAdapter(cmd);
+            var dt = new DataTable();
+            adapter.Fill(dt);
+            foreach (var row in dt.Rows)
+            {
+                var dataRow = (DataRow)row;
+                var candidate = CandidateAdapter.ToEntity(dataRow);
+                return candidate;
+            }
+
+            return null;
         }
     }
 }

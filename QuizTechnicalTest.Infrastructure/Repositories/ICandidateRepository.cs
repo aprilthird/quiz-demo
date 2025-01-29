@@ -10,5 +10,7 @@ namespace QuizTechnicalTest.Infrastructure.Repositories
     public interface ICandidateRepository
     {
         public Task<ICollection<Candidate>> GetAll();
+
+        public Task<Candidate?> GetById(int id);
     }
 }

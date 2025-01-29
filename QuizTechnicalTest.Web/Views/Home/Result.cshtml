@@ -1,32 +1,57 @@
-﻿@model List<CandidateViewModel>
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model QuizResultViewModel
 @{
 }
 
-<div>
-    @for(var i = 0; i < Model.Count(); ++i)
-    {
-        <div>
-            <span class="form-label">Nombre: </span>
-            <span>@Model[i].Name</span>
-        </div>
-        <div>
-            <span class="form-label">Grupo: </span>
-            <span>@Model[i].Group</span>
-        </div>
-        <div>
-            <span class="form-label">Edad: </span>
-            <span>@Model[i].Age</span>
-        </div>
-        <div>
-            <span class="form-label">Profesión: </span>
-            <span>@Model[i].Profession</span>
-        </div>
-        <div>
-            <span class="form-label">Posición: </span>
-            <span>@Model[i].Position</span>
-        </div>
-    }
+<div class="text-center">
+    <h1 class="display-2">Quiz #@Model.Code</h1>
+    <h3 class="display-6">Fecha: @Model.Date.ToLocalTime()</h3>
 </div>
+
+@if(Model.QuizResultCandidates!.Any())
+{
+    <h4 class="mt-5 header-2">En base a tus resupuestas, sugerimos el siguiente candidato:</h4>
+
+    <div class="mt-4 card text-dark bg-light">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Url.Content($"~/img/candidates/{Model.QuizResultCandidates![0].Candidate!.Picture!.ToUpperInvariant()}")" class="img-fluid rounded-start" alt="candidate">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.QuizResultCandidates![0].Candidate!.Name (@Model.QuizResultCandidates[0].Percent %)</h5>
+                    <p class="card-text">Grupo: @Model.QuizResultCandidates![0].Candidate!.Group</p>
+                    <p class="card-text">Edad: @Model.QuizResultCandidates![0].Candidate!.Age</p>
+                    <p class="card-text">Profesión: @Model.QuizResultCandidates![0].Candidate!.Profession</p>
+                    <p class="card-text">Posición: @Model.QuizResultCandidates![0].Candidate!.Position</p>
+                    <p class="card-text"><small class="text-muted">Plan de Gobierno: @Model.QuizResultCandidates![0].Candidate!.GovPlan</small></p>
+                    <p class="card-text"><small class="text-muted">Propuesta: @Model.QuizResultCandidates![0].Candidate!.Proposal</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h4 class="header-5">Otros candidates menos probables:</h4>
+        @foreach (var item in Model.QuizResultCandidates.Skip(1))
+        {
+            <div class="mt-4 card">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@Url.Content($"~/img/candidates/{item.Candidate!.Picture!.ToUpperInvariant()}")" class="img-fluid rounded-start" alt="candidate">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Candidate!.Name (@item.Percent %)</h5>
+                            <p class="card-text">Grupo: @item.Candidate!.Group</p>
+                            <p class="card-text">Edad: @item.Candidate!.Age</p>
+                            <p class="card-text">Profesión: @item.Candidate!.Profession</p>
+                            <p class="card-text">Posición: @item.Candidate!.Position</p>
+                            <p class="card-text"><small class="text-muted">Plan de Gobierno: @item.Candidate!.GovPlan</small></p>
+                            <p class="card-text"><small class="text-muted">Propuesta: @item.Candidate!.Proposal</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

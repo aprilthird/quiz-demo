@@ -19,5 +19,11 @@ namespace QuizTechnicalTest.Domain.Entities
         public string? Profession { get; set; }
 
         public string? Position { get; set; }
+
+        public string? GovPlan { get; set; }
+
+        public string? Proposal { get; set; }
+
+        public string? Picture { get; set; }
     }
 }

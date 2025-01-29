@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using QuizTechnicalTest.CrossCutting.Settings;
 using QuizTechnicalTest.Domain.Entities;
+using QuizTechnicalTest.Infrastructure.Adapters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,17 +38,11 @@ namespace QuizTechnicalTest.Infrastructure.Repositories
             var adapter = new SqlDataAdapter(cmd);
             var dt = new DataTable();
             adapter.Fill(dt);
+
             foreach (var row in dt.Rows)
             {
                 var dataRow = (DataRow)row;
-                
-                var questionAnswer = new QuestionAnswer();
-                questionAnswer.QuestionId = (int)dataRow["question_id"];
-                questionAnswer.QuestionDescription = (string)dataRow["question_desc"];
-                questionAnswer.QuestionPicture = (string)dataRow["question_picture"];
-                questionAnswer.AnswerId = (int)dataRow["answer_id"];
-                questionAnswer.AnswerDescription = (string)dataRow["answer_desc"];
-                
+                var questionAnswer = QuestionAnswerAdater.ToEntity(dataRow);
                 results.Add(questionAnswer);
             }
 

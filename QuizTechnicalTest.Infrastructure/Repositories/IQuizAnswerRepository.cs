@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuizTechnicalTest.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace QuizTechnicalTest.Infrastructure.Repositories
 {
     public interface IQuizAnswerRepository
     {
-
+        Task<int> CreateRange(List<QuizAnswer> quizAnswers);
     }
 }

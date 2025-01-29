@@ -6,6 +6,8 @@
 
         public string? Description { get; set; }
 
+        public string? Picture { get; set; }
+
         public List<AnswerViewModel>? Answers { get; set; }
     }
 }
